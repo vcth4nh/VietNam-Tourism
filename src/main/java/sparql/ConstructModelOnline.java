@@ -5,54 +5,95 @@ import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.sparql.lang.sparql_11.ParseException;
+import tourismobject.park.NationalPark;
+import utils.GetClassInfo;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ConstructModelOnline extends QueryModel {
-
-    public Model ExecConstruct(String data) {
-        ConstructBuilder sb;
+    public Model ExecConstruct() {
+        Query query;
         try {
-            sb = new ConstructBuilder()
-                    .addPrefixes(urlPrefix.getPrefixMapping())
-
-                    .addConstruct("?l", "rdfs:label", "?name").addConstruct("?l", "geo:lat", "?lat")
-                    .addConstruct("?l", "geo:long", "?long").addConstruct("?l", "gold:hypernym", "?hypernym")
-                    .addConstruct("?l", "dbo:abstract", "?abstract")
-
-                    .addWhere("?l", "dbp:" + data, "dbr:Vietnam")
-                    .addWhere("?l", "rdf:type", "geo:SpatialThing")
-                    .addWhere("?l", " rdf:type", "yago:Building102913152")
-
-                    .addFilter("LANG (?abstract) = 'en'")
-                    .addFilter("LANG (?name) = 'en'")
-
-                    .addWhere("?l", "rdfs:label", "?name")
-                    .addWhere("?l", "dbo:abstract", "?abstract")
-                    .addWhere("?l", "geo:lat", "?lat")
-                    .addWhere("?l", "geo:long", "?long")
-                    .addWhere("?l", "gold:hypernym", "?hypernym")
-            ;
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+            query = createQuery();
+        } catch (Exception e) {
+            System.err.println(e.getLocalizedMessage());
+            return null;
         }
-
-        Query query = sb.build();
-        System.out.println(query);
-
         Model m;
         String URL = "http://dbpedia.org/sparql";
         try (QueryExecution qef = QueryExecution.service(URL, query)) {
             m = qef.execConstruct();
         }
+
         return m;
     }
+
+    public Query createQuery() throws Exception {
+        String object = "?l";
+
+        ConstructBuilder builder = new ConstructBuilder().addPrefixes(urlPrefix.getPrefixMapping())
+                .addWhere(object, "rdf:type", "yago:WikicatNationalParksOfVietnam");
+
+        ArrayList<String> queryAttr = GetClassInfo.getQueryAttr(new NationalPark());
+
+        builder = addConstruct(builder, object, queryAttr);
+        builder = addOptional(builder, object, queryAttr);
+        builder = addLangFilter(builder, "?label", new ArrayList<>(Arrays.asList("en", "vi")));
+        builder = addLangFilter(builder, "abstract", new ArrayList<>(Arrays.asList("en", "vi")));
+
+        Query query = builder.build();
+        System.out.println(query);
+        return query;
+    }
+
+    public ConstructBuilder addConstruct(ConstructBuilder builder, String object, ArrayList<String> subjects) {
+        for (String condition : subjects) {
+            String predicate = getPredicate(condition);
+            String subject = getSubject(condition);
+            builder.addConstruct(object, predicate, subject);
+        }
+        return builder;
+    }
+
+    public ConstructBuilder addOptional(ConstructBuilder builder, String object, ArrayList<String> wheres) {
+        for (String condition : wheres) {
+            String predicate = getPredicate(condition);
+            String subject = getSubject(condition);
+            if (condition.charAt(0) == '_')
+                builder.addOptional(subject, predicate, object);
+            else
+                builder.addOptional(object, predicate, subject);
+        }
+        return builder;
+    }
+
+
+    public ConstructBuilder addLangFilter(ConstructBuilder builder, String var, ArrayList<String> langs) throws ParseException {
+        ArrayList<String> langFilterList = new ArrayList<>();
+        for (String lang : langs) {
+            langFilterList.add("lang(" + getSubject(var) + ") = '" + lang + "'");
+        }
+
+        String langFilter = String.join(" || ", langFilterList);
+        builder.addFilter(langFilter);
+
+//        try {
+//            builder.addFilter(langFilter);
+//        } catch (ParseException e) {
+//            System.out.println("Error at filter: `" + langFilter + "`");
+//            throw new RuntimeException(e);
+//        }
+        return builder;
+    }
+
 
     public static void main(String[] args) {
         ConstructModelOnline data = new ConstructModelOnline();
         try {
-            Model m = data.ExecConstruct("country");
+            Model m = data.ExecConstruct();
             FileWriter myWriter = new FileWriter("result.txt");
             m.write(myWriter, "TURTLE");
             myWriter.close();
