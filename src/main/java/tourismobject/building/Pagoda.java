@@ -6,4 +6,5 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Pagoda extends Building {
+    protected String test;
 }
