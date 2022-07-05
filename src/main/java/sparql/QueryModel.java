@@ -7,6 +7,7 @@ import java.util.HashMap;
 public class QueryModel {
     protected final Prologue urlPrefix = new Prologue();
     protected final HashMap<String, String> abbrPrefix = new HashMap<>();
+    protected final HashMap<String, String> modelCriteria = new HashMap<>();
 
     public QueryModel() {
         urlPrefix.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
@@ -25,4 +26,14 @@ public class QueryModel {
         abbrPrefix.put("long", "geo");
         abbrPrefix.put("hypernym", "gold");
     }
+
+    public String getPredicate(String s) {
+        return abbrPrefix.get(s) + ':' + s;
+    }
+
+    public String getSubject(String s) {
+        return "?" + s;
+    }
+
+
 }
