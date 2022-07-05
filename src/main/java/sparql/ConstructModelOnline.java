@@ -1,43 +1,22 @@
+package sparql;
+
 import org.apache.jena.arq.querybuilder.ConstructBuilder;
-import org.apache.jena.query.*;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.sparql.core.Prologue;
 import org.apache.jena.sparql.lang.sparql_11.ParseException;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class GetModel {
-    private final String URL;
-    private final String type;
-    private String outputFile;
+public class ConstructModelOnline extends QueryModel {
 
-    public GetModel(String URL, String type, String outputFile) {
-        this.URL = URL;
-        this.type = type;
-        this.outputFile = outputFile;
-    }
-
-    public GetModel(String URL, String type) {
-        this.URL = URL;
-        this.type = type;
-    }
-
-    public Model ExecQuery(String data) {
-        Prologue prefix = new Prologue();
-        prefix.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-        prefix.setPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-        prefix.setPrefix("dbr", "http://dbpedia.org/resource/");
-        prefix.setPrefix("dbo", "http://dbpedia.org/ontology/");
-        prefix.setPrefix("dbp", "http://dbpedia.org/property/");
-        prefix.setPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
-        prefix.setPrefix("gold", "http://purl.org/linguistics/gold/");
-        prefix.setPrefix("yago", "http://dbpedia.org/class/yago/");
-
+    public Model ExecConstruct(String data) {
         ConstructBuilder sb;
         try {
             sb = new ConstructBuilder()
-                    .addPrefixes(prefix.getPrefixMapping())
+                    .addPrefixes(urlPrefix.getPrefixMapping())
+
                     .addConstruct("?l", "rdfs:label", "?name").addConstruct("?l", "geo:lat", "?lat")
                     .addConstruct("?l", "geo:long", "?long").addConstruct("?l", "gold:hypernym", "?hypernym")
                     .addConstruct("?l", "dbo:abstract", "?abstract")
@@ -63,18 +42,17 @@ public class GetModel {
         System.out.println(query);
 
         Model m;
+        String URL = "http://dbpedia.org/sparql";
         try (QueryExecution qef = QueryExecution.service(URL, query)) {
             m = qef.execConstruct();
-            System.out.println((m));
-            m.write(System.out, "TURTLE");
         }
         return m;
     }
 
-    public static void main(String[] args) throws Exception {
-        GetModel data = new GetModel("http://dbpedia.org/sparql", "country");
+    public static void main(String[] args) {
+        ConstructModelOnline data = new ConstructModelOnline();
         try {
-            Model m = data.ExecQuery("country");
+            Model m = data.ExecConstruct("country");
             FileWriter myWriter = new FileWriter("result.txt");
             m.write(myWriter, "TURTLE");
             myWriter.close();
