@@ -1,13 +1,14 @@
 package sparql;
 
-import org.apache.jena.arq.querybuilder.ConstructBuilder;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.json.simple.parser.ParseException;
+import utils.ClassUtils;
 import utils.ModelUtils;
 import utils.Selector;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
@@ -23,28 +24,33 @@ public class Construct {
         endpoint = "http://dbpedia.org/sparql";
     }
 
-    public void queryOnlineAll() {
+    public Model queryOnlineAll() {
         Selector selector;
         try {
             selector = new Selector();
-        } catch (IOException | org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-            return;
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
         }
 
-        for (String className : selector.getJsonKeys()) {
+        Model db = ModelFactory.createDefaultModel();
+        for (String className : selector.getClassName()) {
+            Map<String, String> classSelector = selector.objectSelector(className);
+
+            Model m = execConstruct(ClassUtils.getClassPath(className), classSelector);
+            if (m == null) continue;
+
+            db.add(m);
+
+            String fileName = className + ".ttl";
+            String filePath = "src/main/resources/result/" + fileName;
             try {
-                Map<String, String> classSelector = selector.objectSelector(className);
-                Model m = execConstruct(selector.getClassPath(className), classSelector);
-                FileWriter myWriter = new FileWriter("result.txt");
-                m.write(myWriter, "TURTLE");
-                myWriter.close();
-                System.out.println("Successfully wrote to the file.");
+                ModelUtils.writeModel(m, filePath, "TURTLE");
+                System.out.println("Successfully wrote to " + fileName);
             } catch (IOException e) {
-                System.out.println("An error occurred.");
+                System.err.println("Cannot write to " + fileName);
             }
         }
-
+        return db;
     }
 
     public Model execConstruct(String className, Map<String, String> classSelector) {
@@ -53,13 +59,13 @@ public class Construct {
             query = (new ConstructQuery()).create(className, classSelector);
             System.out.println(query);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
 
         if (endpoint.startsWith("http://") || endpoint.startsWith("https://"))
             return execConstructHTTP(query, endpoint);
-        else return execConstructFile(query, endpoint);
+        else
+            return execConstructFile(query, endpoint);
     }
 
 
@@ -76,7 +82,6 @@ public class Construct {
         if (db == null) return null;
 
         return execConstructFileReal(query, db);
-
     }
 
     private Model execConstructFile(Query query, Model m) {
@@ -91,9 +96,5 @@ public class Construct {
         }
 
         return m;
-    }
-
-
-    public static void main(String[] args) {
     }
 }
