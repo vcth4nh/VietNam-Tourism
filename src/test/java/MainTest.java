@@ -19,8 +19,8 @@ public class MainTest {
 
         Construct data = new Construct("result.txt");
         try {
-//            Model m = data.execConstruct(selector.getClassPath("NationalPark"), selector.objectSelector("NationalPark"));
-            Model m = ModelUtils.createModel("result.txt");
+            Model m = data.execConstruct(selector.getClassPath("NationalPark"), selector.objectSelector("NationalPark"));
+//            Model m = ModelUtils.createModel("result.txt");
             FileWriter myWriter = new FileWriter("result3.txt");
             m.write(myWriter, "TURTLE");
             m.write(System.out, "TURTLE");
