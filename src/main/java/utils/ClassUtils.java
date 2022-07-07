@@ -1,7 +1,7 @@
 package utils;
 
 import tourismobject.TourismObject;
-import tourismobject.park.NationalPark;
+import tourismobject.NationalPark;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.lang.reflect.Modifier;
 
 import static org.junit.Assert.assertTrue;
 
-public class GetClassInfo {
+public class ClassUtils {
 
     /**
      * Return an ArrayList of fields' name
@@ -53,7 +53,7 @@ public class GetClassInfo {
     }
 
     public static void main(String[] args) {
-        ArrayList<String> queryAttr = GetClassInfo.getQueryAttr(new NationalPark());
+        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(new NationalPark());
         System.out.println(queryAttr);
     }
 }
