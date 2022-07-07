@@ -1,5 +1,8 @@
 {
   "NationalPark": {
     "type": "yago:WikicatNationalParksOfVietnam"
+  },
+  "Lake": {
+    "wikiPageWikiLink": "dbc:Lakes_of_Hanoi"
   }
 }
