@@ -1,13 +1,9 @@
 package utils;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -15,44 +11,38 @@ import static org.junit.Assert.assertTrue;
 
 public class Selector {
     private final JSONObject json;
-    private final String tourismObjectPath = "src/main/java/";
     private final String tourismObjectDir = "tourismobject";
+    private final String tourismObjectDirPath = "src/main/java/" + tourismObjectDir;
 
     public Selector(String fileName) throws IOException, ParseException {
-        json = (JSONObject) new JSONParser().parse(new FileReader(fileName));
+        json = JsonUtils.read(fileName);
     }
 
     public Selector() throws IOException, ParseException {
-        json = (JSONObject) new JSONParser().parse(new FileReader("src/main/resources/tourism-object/selector.json"));
+        json = JsonUtils.read("src/main/resources/tourism-object/selector.json");
     }
 
-    public ArrayList<String> getJsonKeys() {
-        return new ArrayList<String>(json.keySet());
+    public ArrayList<String> getClassName() throws ClassCastException {
+        return JsonUtils.getJsonKeys(json);
     }
 
-    private void checkExistClassPath() {
-        String dir = tourismObjectPath + tourismObjectDir;
-        assertTrue("File " + dir + " does not exist", Files.exists(Path.of(dir)));
-    }
 
     public String getClassPath(String className) {
-        checkExistClassPath();
+        ClassUtils.checkExistClassPath(tourismObjectDirPath);
 
         return tourismObjectDir + '.' + className;
     }
 
-    ;
-
     public ArrayList<String> tourismObjects() {
-        checkExistClassPath();
+        ClassUtils.checkExistClassPath(tourismObjectDirPath);
 
-        ArrayList<String> tourismObjects = getJsonKeys();
+        ArrayList<String> tourismObjects = getClassName();
         tourismObjects.replaceAll(s -> tourismObjectDir + '.' + s);
         return tourismObjects;
     }
 
 
-    public Map<String, String> objectSelector(String objectName) {
+    public Map<String, String> objectSelector(String objectName) throws ClassCastException {
         return (Map<String, String>) json.get(objectName);
     }
 

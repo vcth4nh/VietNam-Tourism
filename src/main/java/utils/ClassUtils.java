@@ -1,16 +1,18 @@
 package utils;
 
+import org.reflections.Reflections;
 import tourismobject.TourismObject;
-import tourismobject.NationalPark;
 
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.lang.reflect.Modifier;
+import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 
 public class ClassUtils {
-
     /**
      * Return an ArrayList of fields' name
      */
@@ -48,12 +50,45 @@ public class ClassUtils {
         return queryAttr;
     }
 
-    public static String rmLastChar(String s) {
-        return s.substring(0, s.length() - 1);
+    public static ArrayList<String> getSubclassesName(String className, boolean onlyDirect) {
+        Reflections reflections = new Reflections("tourismobject");
+
+        Class<?> superClass;
+        try {
+            superClass = Class.forName(ClassUtils.getClassPath(className));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        Set<?> subclasses;
+        subclasses = reflections.getSubTypesOf(superClass);
+
+        ArrayList<String> subclasses_ = new ArrayList<>();
+        for (Object subclass : subclasses) {
+            if (onlyDirect && subclass.getClass().getSuperclass().equals(superClass)) continue;
+
+            String subclassStr = subclass.toString();
+            subclasses_.add(subclassStr.substring(subclassStr.lastIndexOf('.') + 1));
+        }
+        return subclasses_;
     }
 
-    public static void main(String[] args) {
-        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(new NationalPark());
-        System.out.println(queryAttr);
+
+    public static void checkExistClassPath(String dir) {
+        assertTrue("File " + dir + " does not exist", Files.exists(Path.of(dir)));
+    }
+
+    public static String getClassPath(String className) {
+        final String tourismObjectDir = "tourismobject";
+        final String tourismObjectDirPath = "src/main/java/" + tourismObjectDir + "/";
+        checkExistClassPath(tourismObjectDirPath + className + ".java");
+
+        return tourismObjectDir + '.' + className;
+    }
+
+
+    public static String rmLastChar(String s) {
+        return s.substring(0, s.length() - 1);
     }
 }
