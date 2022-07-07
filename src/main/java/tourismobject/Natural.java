@@ -2,5 +2,5 @@ package tourismobject;
 
 import java.util.ArrayList;
 
-public class Natural {
+public abstract class  Natural extends TourismObject {
 }
