@@ -16,10 +16,10 @@ public class ConstructQuery extends QueryModel {
         ConstructBuilder builder = new ConstructBuilder().addPrefixes(urlPrefix.getPrefixMapping());
 
         Class<?> c = Class.forName(className);
-        Object aa = c.getDeclaredConstructor().newInstance();
+        Object obj = c.getDeclaredConstructor().newInstance();
 
         builder = addSelector(builder, object, classSelector);
-        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(aa);
+        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(obj);
 
         builder = addConstruct(builder, object, queryAttr);
         builder = addOptional(builder, object, queryAttr);

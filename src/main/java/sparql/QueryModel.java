@@ -1,7 +1,5 @@
 package sparql;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.sparql.core.Prologue;
 
 import java.util.HashMap;
@@ -19,14 +17,17 @@ public class QueryModel {
         urlPrefix.setPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
         urlPrefix.setPrefix("gold", "http://purl.org/linguistics/gold/");
         urlPrefix.setPrefix("yago", "http://dbpedia.org/class/yago/");
+        urlPrefix.setPrefix("dbc", "http://dbpedia.org/resource/Category:");
 
+
+        // TODO: 7/7/2022 Lặp key?
         abbrPrefix.put("label", "rdfs");
         abbrPrefix.put("abstract", "dbo");
         abbrPrefix.put("type", "rdf");
         abbrPrefix.put("lat", "geo");
         abbrPrefix.put("long", "geo");
         abbrPrefix.put("hypernym", "gold");
-        abbrPrefix.put("testttttt", "gold");
+        abbrPrefix.put("wikiPageWikiLink", "dbo");
 
     }
 
