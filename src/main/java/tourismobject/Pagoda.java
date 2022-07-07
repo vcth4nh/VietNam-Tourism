@@ -1,10 +1,9 @@
-package tourismobject.building;
-
-import tourismobject.natural.Natural;
+package tourismobject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Pagoda extends Building {
+    private ArrayList<?> Pagoda;
+
     protected String test;
 }

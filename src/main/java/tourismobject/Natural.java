@@ -1,4 +1,4 @@
-package tourismobject.natural;
+package tourismobject;
 
 import java.util.ArrayList;
 
