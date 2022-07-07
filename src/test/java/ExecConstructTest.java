@@ -1,13 +1,12 @@
 import org.apache.jena.rdf.model.Model;
 import org.json.simple.parser.ParseException;
 import sparql.Construct;
-import utils.ModelUtils;
 import utils.Selector;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MainTest {
+public class ExecConstructTest {
     public static void main(String[] args) {
         Selector selector;
         try {
@@ -17,7 +16,8 @@ public class MainTest {
 
         }
 
-        Construct data = new Construct("result.txt");
+        Construct data = new Construct();
+        data.queryOnlineAll();
         try {
             Model m = data.execConstruct(selector.getClassPath("NationalPark"), selector.objectSelector("NationalPark"));
 //            Model m = ModelUtils.createModel("result.txt");

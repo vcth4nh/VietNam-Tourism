@@ -10,7 +10,7 @@ public class SelectorTest {
             return;
         }
         System.out.println(selector.tourismObjects());
-        for (String oj : selector.getJsonKeys()) {
+        for (String oj : selector.getClassName()) {
             System.out.println(oj);
             System.out.println(selector.objectSelector(oj));
         }
