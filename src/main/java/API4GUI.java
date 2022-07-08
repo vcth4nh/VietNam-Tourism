@@ -14,19 +14,20 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertNotNull;
 
 public class API4GUI {
-    private final String cacheDirPath = "src/main/resources/cache/";
+    private static final String cacheDirPath = "src/main/resources/cache/";
 
-    public JSONObject ObjectToJson(String className) {
+    public static JSONObject ObjectToJson(String className) {
         ArrayList<String> fileList;
         fileList = ModelUtils.scanModel(className);
 
-        if (fileList == null) return null;
+        if (fileList == null)
+            return null;
 
         Model db = ModelUtils.createModel(fileList);
 
         String cacheFileName = className + ".json";
         String cacheFilePath = cacheDirPath + cacheFileName;
-
+        System.out.println(fileList);
         if (!Files.exists(Path.of(cacheFilePath)))
             try {
                 ModelUtils.writeModel(db, cacheFilePath, "JSONLD");
@@ -34,7 +35,8 @@ public class API4GUI {
                 e.printStackTrace();
                 return null;
             }
-        else System.err.println(cacheFileName + " already exist, reading from file.");
+        else
+            System.err.println(cacheFileName + " already exist, reading from file.");
 
         JSONObject json;
         try {
@@ -55,7 +57,6 @@ public class API4GUI {
         return ClassUtils.getSubclassesName(superClass, false);
     }
 
-
     public void destroyCache() {
         try {
             Files.list(Path.of(cacheDirPath)).filter(p -> p.toString().endsWith(".json")).forEach((p) -> {
@@ -71,6 +72,6 @@ public class API4GUI {
     }
 
     public static void main(String[] args) {
-        
+
     }
 }

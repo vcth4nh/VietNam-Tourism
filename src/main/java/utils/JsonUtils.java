@@ -16,4 +16,8 @@ public class JsonUtils {
     public static ArrayList<String> getJsonKeys(JSONObject json) throws ClassCastException {
         return new ArrayList<String>(json.keySet());
     }
+
+    public static String getJsonPath(String className) {
+        return "src/main/resources/cache/" + className + ".json";
+    }
 }

@@ -3,6 +3,9 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.json.simple.JSONObject;
+
+import jakarta.json.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +19,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import tourismobject.Pagoda;
 import tourismobject.TourismObject;
+import utils.JsonUtils;
 
 public class Controller implements Initializable {
 
@@ -37,10 +41,7 @@ public class Controller implements Initializable {
     @FXML
     private TreeView<String> treeView;
 
-    private ObservableList<TourismObject> pagodaList = FXCollections.observableArrayList(
-            new Pagoda("Chua mot cot", 12.54, 15.65, "historic building"),
-            new Pagoda("Chua mot cot", 12.54, 15.65, "historic building"),
-            new Pagoda("Chua mot cot", 12.54, 15.65, "historic building"));
+    private ObservableList<TourismObject> pagodaList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -105,6 +106,12 @@ public class Controller implements Initializable {
         longtitude.setCellValueFactory(new PropertyValueFactory<TourismObject, Float>("long_"));
         type.setCellValueFactory(new PropertyValueFactory<TourismObject, String>("abstract_"));
         table.setItems(listItem);
+    }
+
+    public static void main(String[] args) throws Exception {
+        String path = JsonUtils.getJsonPath("Park");
+        System.out.println(path);
+        JSONObject object = JsonUtils.read(path);
     }
 
 }

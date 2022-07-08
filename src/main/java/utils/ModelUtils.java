@@ -32,6 +32,7 @@ public class ModelUtils {
 
     public static ArrayList<String> scanModel(String className) {
         ArrayList<String> subclasses_ = ClassUtils.getSubclassesName(className, false);
+        System.out.println(subclasses_);
         if (subclasses_ == null) return null;
 
         subclasses_.replaceAll(s -> "src/main/resources/result/" + s + ".ttl");
