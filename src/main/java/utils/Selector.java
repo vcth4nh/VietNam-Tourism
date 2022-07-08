@@ -9,6 +9,9 @@ import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Handle selector creation
+ */
 public class Selector {
     private final JSONObject json;
     private final String tourismObjectDir = "tourismobject";
@@ -26,12 +29,6 @@ public class Selector {
         return JsonUtils.getJsonKeys(json);
     }
 
-
-    public String getClassPath(String className) {
-        ClassUtils.checkExistClassPath(tourismObjectDirPath);
-
-        return tourismObjectDir + '.' + className;
-    }
 
     public ArrayList<String> tourismObjects() {
         ClassUtils.checkExistClassPath(tourismObjectDirPath);

@@ -15,7 +15,14 @@ import static org.junit.Assert.assertNotNull;
 
 public class API4GUI {
     private final String cacheDirPath = "src/main/resources/cache/";
+    private final String resultDirPath = "src/main/resources/result/";
 
+    /**
+     * Convert a data object to a JSON object, write to file in cache folder and return a JSON object
+     * If file exist then read file to return a JSON object
+     * @param className
+     * @return JSONObject contain
+     */
     public JSONObject ObjectToJson(String className) {
         ArrayList<String> fileList;
         fileList = ModelUtils.scanModel(className);
@@ -47,15 +54,30 @@ public class API4GUI {
         return json;
     }
 
+    /**
+     * Get name of direct subclasses
+     *
+     * @param superClass
+     * @return ArrayList<String> of direct subclasses
+     */
     public ArrayList<String> getDirectSubclassesName(String superClass) {
         return ClassUtils.getSubclassesName(superClass, true);
     }
 
+    /**
+     * Get name of all subclasses
+     *
+     * @param superClass
+     * @return ArrayList<String> of all subclasses
+     */
     public ArrayList<String> getAllSubclassesName(String superClass) {
         return ClassUtils.getSubclassesName(superClass, false);
     }
 
 
+    /**
+     * Clear cache folder after exit the program
+     */
     public void destroyCache() {
         try {
             Files.list(Path.of(cacheDirPath)).filter(p -> p.toString().endsWith(".json")).forEach((p) -> {
