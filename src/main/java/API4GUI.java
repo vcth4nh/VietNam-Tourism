@@ -69,4 +69,8 @@ public class API4GUI {
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) {
+        
+    }
 }

@@ -1,54 +1,110 @@
 package gui;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
+import tourismobject.Pagoda;
+import tourismobject.TourismObject;
 
 public class Controller implements Initializable {
+
+    @FXML
+    private TableView<TourismObject> table;
+
+    @FXML
+    private TableColumn<TourismObject, String> label;
+
+    @FXML
+    private TableColumn<TourismObject, Float> latitude;
+
+    @FXML
+    private TableColumn<TourismObject, Float> longtitude;
+
+    @FXML
+    private TableColumn<TourismObject, String> type;
+
     @FXML
     private TreeView<String> treeView;
 
+    private ObservableList<TourismObject> pagodaList = FXCollections.observableArrayList(
+            new Pagoda("Chua mot cot", 12.54, 15.65, "historic building"),
+            new Pagoda("Chua mot cot", 12.54, 15.65, "historic building"),
+            new Pagoda("Chua mot cot", 12.54, 15.65, "historic building"));
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        TreeItem<String> rootItem = new TreeItem<>("Files");
+        // TODO Auto-generated method stub
 
-        TreeItem<String> branchItem1 = new TreeItem<>("Pictures");
-        TreeItem<String> branchItem2 = new TreeItem<>("Videos");
-        TreeItem<String> branchItem3 = new TreeItem<>("Music");
+        TreeItem<String> vnTourism = new TreeItem<>("VN TOURISM");
 
-        TreeItem<String> leafItem1 = new TreeItem<>("Picture1");
-        TreeItem<String> leafItem2 = new TreeItem<>("Video1");
-        TreeItem<String> leafItem3 = new TreeItem<>("Music1");
-        branchItem1.getChildren().add(leafItem1);
-        branchItem2.getChildren().add(leafItem2);
-        branchItem3.getChildren().add(leafItem3);
-        rootItem.getChildren().addAll(branchItem1, branchItem2, branchItem3);
-        // treeView.setShowRoot(true);  
-        treeView.setRoot(rootItem);
+        TreeItem<String> building = new TreeItem<>("BUILDING");
+        TreeItem<String> naturalPlace = new TreeItem<>("NATURAL PLACE");
+
+        TreeItem<String> skyscraper = new TreeItem<>("SKYSCRAPER");
+        TreeItem<String> historicBuilding = new TreeItem<>("HISTORIC BUILDING");
+        TreeItem<String> religiousBuilding = new TreeItem<>("RELIGIOUS BUILDING");
+        TreeItem<String> museum = new TreeItem<>("MUSEUM");
+        TreeItem<String> pagoda = new TreeItem<>("PAGODA");
+
+        TreeItem<String> nationalPark = new TreeItem<>("NATIONAL PARK");
+        TreeItem<String> cave = new TreeItem<>("CAVE");
+        TreeItem<String> beach = new TreeItem<>("BEACH");
+        TreeItem<String> bodyOfWater = new TreeItem<>("BODY OF WATER");
+
+        building.getChildren().addAll(skyscraper, historicBuilding, religiousBuilding, museum, pagoda);
+        naturalPlace.getChildren().addAll(nationalPark, cave, beach, bodyOfWater);
+
+        vnTourism.getChildren().addAll(building, naturalPlace);
+
+        treeView.setRoot(vnTourism);
+
     }
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    String css = this.getClass().getResource("application.css").toExternalForm();
+    @FXML
+    void selectItem(MouseEvent event) {
+        TreeItem<String> item = (TreeItem<String>) treeView.getSelectionModel().getSelectedItem();
+        if (item == null)
+            return;
+        if (item.getValue() == "HISTORIC BUILDING") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "RELIGIOUS BUILDING") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "SKYSCRAPER") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "MUSEUM") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "NATIONAL PARK") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "CAVE") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "BEACH") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "BODY OF WATER") {
+            setItem(pagodaList);
+        } else if (item.getValue() == "PAGODA") {
+            setItem(pagodaList);
+        }
 
-    public void selectItem() {
-        TreeItem item = treeView.getSelectionModel().getSelectedItem();
+        System.out.println(item.getValue());
+    }
 
-        if (item != null)
-            System.out.println(item.getValue());
+    private void setItem(ObservableList<TourismObject> listItem) {
+        label.setCellValueFactory(new PropertyValueFactory<TourismObject, String>("label"));
+        latitude.setCellValueFactory(new PropertyValueFactory<TourismObject, Float>("lat"));
+        longtitude.setCellValueFactory(new PropertyValueFactory<TourismObject, Float>("long_"));
+        type.setCellValueFactory(new PropertyValueFactory<TourismObject, String>("abstract_"));
+        table.setItems(listItem);
     }
 
 }
