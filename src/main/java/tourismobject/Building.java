@@ -8,4 +8,8 @@ public abstract class Building extends TourismObject {
     protected int space;
     protected int towerHeight;
     protected int buildingType;
+
+    // protected Building(String label, double lat, double long_, String abstract_) {
+    //     super(label, lat, long_, abstract_);
+    // }
 }

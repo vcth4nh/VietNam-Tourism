@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
+   <children>
+      <TreeView fx:id="treeView" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="200.0" prefWidth="200.0" />
+      <ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+         <content>
+            <BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="386.0" prefWidth="402.0">
+               <center>
+                  <TableView fx:id="table" prefHeight="258.0" prefWidth="402.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn fx:id="labelColumn" prefWidth="114.0" text="Label" />
+                      <TableColumn fx:id="latitudeColumn" text="Lat" />
+                        <TableColumn fx:id="longtitudeColumn" prefWidth="77.0" text="Long" />
+                        <TableColumn fx:id="typeColumn" prefWidth="112.0" text="Type" />
+                    </columns>
+                  </TableView>
+               </center></BorderPane>
+         </content>
+      </ScrollPane>
+   </children>
+</HBox>
