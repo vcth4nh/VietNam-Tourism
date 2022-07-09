@@ -1,9 +1,7 @@
+package utils;
 import org.json.simple.JSONObject;
 import org.apache.jena.rdf.model.Model;
 import org.json.simple.parser.ParseException;
-import utils.ClassUtils;
-import utils.JsonUtils;
-import utils.ModelUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertNotNull;
 
 public class API4GUI {
-    private final String cacheDirPath = "src/main/resources/cache/";
+    private static final String cacheDirPath = "src/main/resources/cache/";
     private final String resultDirPath = "src/main/resources/result/";
 
     /**
@@ -23,7 +21,7 @@ public class API4GUI {
      * @param className
      * @return JSONObject contain
      */
-    public JSONObject ObjectToJson(String className) {
+    public static JSONObject ObjectToJson(String className) {
         ArrayList<String> fileList;
         fileList = ModelUtils.scanModel(className);
 

@@ -35,7 +35,7 @@ public class Construct {
         Model db = ModelFactory.createDefaultModel();
         for (String className : selector.getClassName()) {
             Map<String, String> classSelector = selector.objectSelector(className);
-
+            System.out.println(className);
             Model m = execConstruct(ClassUtils.getClassPath(className), classSelector);
             if (m == null) continue;
 
