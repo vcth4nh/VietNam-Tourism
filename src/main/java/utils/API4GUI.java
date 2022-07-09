@@ -1,9 +1,7 @@
+package utils;
 import org.json.simple.JSONObject;
 import org.apache.jena.rdf.model.Model;
 import org.json.simple.parser.ParseException;
-import utils.ClassUtils;
-import utils.JsonUtils;
-import utils.ModelUtils;
 
 import java.io.File;
 import java.io.IOException;

@@ -14,7 +14,7 @@
          <left>
             <VBox prefHeight="459.0" prefWidth="204.0" BorderPane.alignment="CENTER">
                <children>
-                  <TreeView fx:id="treeView" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="531.0" prefWidth="204.0" />
+                  <TreeView fx:id="treeView" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="505.0" prefWidth="204.0" />
                </children>
             </VBox>
          </left>
@@ -27,7 +27,7 @@
                 <TableColumn fx:id="label" prefWidth="175.0" text="Label" />
                 <TableColumn fx:id="latitude" prefWidth="88.0" text="Latitude" />
                   <TableColumn fx:id="longtitude" prefWidth="97.0" text="Longtitude" />
-                  <TableColumn fx:id="type" prefWidth="121.0" text="Type" />
+                  <TableColumn fx:id="type" prefWidth="329.0" text="Abstract" />
               </columns>
             </TableView>
          </center>
