@@ -16,7 +16,7 @@ public class Main {
 
         API4GUI api4GUI = new API4GUI();
 
-        JSONObject object = api4GUI.ObjectToJson("Park");
+        JSONObject object = API4GUI.ObjectToJson("Park");
         // Test API
         // System.out.println("TourismObject: ");
         // System.out.println(api4GUI.getDirectSubclassesName("TourismObject"));

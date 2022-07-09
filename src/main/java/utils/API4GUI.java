@@ -69,7 +69,4 @@ public class API4GUI {
         }
     }
 
-    public static void main(String[] args) {
-
-    }
 }

@@ -1,7 +1,7 @@
 package tourismobject;
 
 public class NationalPark extends Park {
-    // public NationalPark(String label, double lat, double long_, String abstract_) {
-    //     super(label, lat, long_, abstract_);
-    // }
+    private String nearestCity;
+    private String areaTotal;
+    private String area;
 }
