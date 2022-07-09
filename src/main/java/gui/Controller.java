@@ -99,7 +99,6 @@ public class Controller implements Initializable {
         } else if (item.getValue().equals(DataType.BUILDING.getName())) {
             setItem(buildingList);
         } else if (item.getValue().equals(DataType.NATURALPLACE.getName())) {
-            System.out.println(naturalList);
             setItem(naturalList);
         } else if (item.getValue().equals(DataType.PAGODA.getName())) {
             setItem(pagodaList);
