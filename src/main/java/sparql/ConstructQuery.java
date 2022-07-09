@@ -3,6 +3,7 @@ package sparql;
 import org.apache.jena.arq.querybuilder.ConstructBuilder;
 import org.apache.jena.query.Query;
 import org.apache.jena.sparql.lang.sparql_11.ParseException;
+import tourismobject.TourismObject;
 import utils.ClassUtils;
 
 import java.util.ArrayList;
@@ -10,16 +11,20 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class ConstructQuery extends QueryModel {
-    public Query create(String className, Map<String, String> classSelector) throws Exception {
+    public Query create(TourismObject tObj, Map<String, String> classSelector) throws Exception {
+        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(tObj);
+        return createReal(classSelector, queryAttr);
+    }
+
+    public Query create(Map<String, String> classSelector, ArrayList<String> queryAttr) throws Exception {
+        return createReal(classSelector, queryAttr);
+    }
+
+    private Query createReal(Map<String, String> classSelector, ArrayList<String> queryAttr) throws Exception {
         String object = "?l";
 
         ConstructBuilder builder = new ConstructBuilder().addPrefixes(urlPrefix.getPrefixMapping());
-
-        Class<?> c = Class.forName(className);
-        Object obj = c.getDeclaredConstructor().newInstance();
-
         builder = addSelector(builder, object, classSelector);
-        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(obj);
 
         builder = addConstruct(builder, object, queryAttr);
         builder = addOptional(builder, object, queryAttr);
