@@ -87,6 +87,16 @@ public class ClassUtils {
         return tourismObjectDir + '.' + className;
     }
 
+    public static TourismObject strToObj(String className) {
+        try {
+            Class<?> c = Class.forName(className);
+            return (TourismObject) c.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static String rmLastChar(String s) {
         return s.substring(0, s.length() - 1);
