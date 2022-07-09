@@ -5,11 +5,13 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.json.simple.parser.ParseException;
+import tourismobject.TourismObject;
 import utils.ClassUtils;
 import utils.ModelUtils;
 import utils.Selector;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Construct {
@@ -35,8 +37,8 @@ public class Construct {
         Model db = ModelFactory.createDefaultModel();
         for (String className : selector.getClassName()) {
             Map<String, String> classSelector = selector.objectSelector(className);
-
-            Model m = execConstruct(ClassUtils.getClassPath(className), classSelector);
+// TODO: 7/8/2022 làm method tạo object từ className trong ClassUtils
+            Model m = execConstruct(ClassUtils.strToObj(className), classSelector);
             if (m == null) continue;
 
             db.add(m);
@@ -53,10 +55,19 @@ public class Construct {
         return db;
     }
 
-    public Model execConstruct(String className, Map<String, String> classSelector) {
+    public Model execConstruct(TourismObject tObj, Map<String, String> classSelector) {
+        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(tObj);
+        return execConstructReal(classSelector, queryAttr);
+    }
+
+    public Model execConstruct(Map<String, String> classSelector, ArrayList<String> queryAttr) {
+        return execConstructReal(classSelector, queryAttr);
+    }
+
+    private Model execConstructReal(Map<String, String> classSelector, ArrayList<String> queryAttr) {
         Query query;
         try {
-            query = (new ConstructQuery()).create(className, classSelector);
+            query = (new ConstructQuery()).create(classSelector, queryAttr);
             System.out.println(query);
         } catch (Exception e) {
             throw new RuntimeException(e);
