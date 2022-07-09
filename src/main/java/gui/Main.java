@@ -28,6 +28,7 @@ public class Main extends Application {
             stage.setTitle("Stage demo program");
             stage.getIcons().add(icon);
             stage.show();
+            stage.setResizable(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
