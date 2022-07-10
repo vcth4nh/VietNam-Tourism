@@ -20,7 +20,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import sparql.Construct;
+import sparql.ExecQuery;
 import tourismData.DataType;
 import tourismData.TourismObjectData;
 import utils.API4GUI;
@@ -83,7 +83,7 @@ public class Controller implements Initializable {
 
         treeView.setRoot(vnTourism);
 
-        Construct queryOnline = new Construct();
+        ExecQuery queryOnline = new ExecQuery();
         Model db = queryOnline.queryOnlineAll();
 
     }
