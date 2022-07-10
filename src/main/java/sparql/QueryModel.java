@@ -1,38 +1,34 @@
 package sparql;
 
 import org.apache.jena.sparql.core.Prologue;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import utils.JsonUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class QueryModel {
-    protected final Prologue urlPrefix = new Prologue();
-    protected final HashMap<String, String> abbrPrefix = new HashMap<>();
+    protected final Prologue urlPrefix;
+    protected final Map<String, String> abbrPrefix;
 
     public QueryModel() {
-        urlPrefix.setPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-        urlPrefix.setPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-        urlPrefix.setPrefix("dbr", "http://dbpedia.org/resource/");
-        urlPrefix.setPrefix("dbo", "http://dbpedia.org/ontology/");
-        urlPrefix.setPrefix("dbp", "http://dbpedia.org/property/");
-        urlPrefix.setPrefix("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
-        urlPrefix.setPrefix("gold", "http://purl.org/linguistics/gold/");
-        urlPrefix.setPrefix("yago", "http://dbpedia.org/class/yago/");
-        urlPrefix.setPrefix("dbc", "http://dbpedia.org/resource/Category:");
-
-
-        // TODO: 7/7/2022 Lặp key?
-        abbrPrefix.put("label", "rdfs");
-        abbrPrefix.put("abstract", "dbo");
-        abbrPrefix.put("type", "rdf");
-        abbrPrefix.put("lat", "geo");
-        abbrPrefix.put("long", "geo");
-        abbrPrefix.put("hypernym", "gold");
-        abbrPrefix.put("wikiPageWikiLink", "dbo");
-
+        try {
+            urlPrefix = JsonUtils.JsonToPrologue("url-prefix.json");
+            // TODO: 7/7/2022 Lặp key?
+            abbrPrefix = JsonUtils.JSONToMapStrStr("abbr-prefix.json");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected String getPredicate(String s) {
-        return abbrPrefix.get(s) + ':' + s;
+        for (Map.Entry<String, String> entry : abbrPrefix.entrySet()) {
+            if (entry.getValue().contains('|' + s + '|')) return entry.getKey() + ':' + s;
+        }
+        throw new RuntimeException(s + " is not found in abbr-prefix.json");
     }
 
     protected String getSubject(String s) {
