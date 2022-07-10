@@ -1,0 +1,9 @@
+{
+  "rdfs": "|label|",
+  "dbo": "|abstract|wikiPageWikiLink|formationDate|wikiPageExternalLink|",
+  "rdf": "|type|",
+  "geo": "|lat|long|",
+  "gold": "|hypernym|",
+  "foaf": "|homepage|",
+  "dbp": "|geology|length|depth|location|entranceCount|discovery|nearestCity|areaTotal|area|completedDate|iata|icao|buildingType|floorCount|founded|openingDate|nativeName|numberOfSuites|numberOfRooms|numberOfRestaurants|owner|ceased|date|host|motto|stadium|id|year|"
+}
