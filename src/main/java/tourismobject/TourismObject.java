@@ -14,6 +14,14 @@ public abstract class TourismObject {
     protected String abstract_;
     protected String nativeName;
 
+    public TourismObject(String label, String abstract_) {
+        this.label = label;
+        this.abstract_ = abstract_;
+    }
+
+    public TourismObject() {
+    }
+
     protected Triple<String, String, String> SetTriple(String l, String m, String r) {
         MutableTriple<String, String, String> t = new MutableTriple<>();
         t.setLeft(l);
@@ -21,4 +29,21 @@ public abstract class TourismObject {
         t.setRight(r);
         return t;
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getAbstract_() {
+        return abstract_;
+    }
+
+    public void setAbstract_(String abstract_) {
+        this.abstract_ = abstract_;
+    }
+
 }

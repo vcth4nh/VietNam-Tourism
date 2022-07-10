@@ -13,4 +13,20 @@ public class Lake extends Natural implements Queryable {
 
         return execQuery.execConstruct(this, selector);
     }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
