@@ -56,7 +56,7 @@ public class CreateQuery extends QueryModel {
         for (String item : list) {
             String predicate = getPredicate(item);
             String subject = getSubject(item);
-
+            if ((subject + predicate + object).contains("null")) continue; // TODO: 7/10/2022 Dùng tạm để test
             if (isOptional)
                 builder.addOptional(object, predicate, subject);
             else builder.addConstruct(object, predicate, subject);
