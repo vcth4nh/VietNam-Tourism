@@ -13,4 +13,20 @@ public class Skyscraper extends Building implements Queryable {
 
         return execQuery.execConstruct(this, selector);
     }
+
+    public String getBuildingType() {
+        return buildingType;
+    }
+
+    public void setBuildingType(String buildingType) {
+        this.buildingType = buildingType;
+    }
+
+    public int getFloorCount() {
+        return floorCount;
+    }
+
+    public void setFloorCount(int floorCount) {
+        this.floorCount = floorCount;
+    }
 }

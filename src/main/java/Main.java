@@ -1,8 +1,10 @@
+import static org.junit.Assert.assertNotEquals;
+
 import org.apache.jena.rdf.model.Model;
 import org.json.simple.JSONObject;
 
-import utils.API4GUI;
 import sparql.ExecQuery;
+import utils.API4GUI;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -12,10 +14,10 @@ import static org.junit.Assert.*;
 public class Main {
     public static void main(String[] args) {
         ExecQuery queryOnline = new ExecQuery();
-        Model db = queryOnline.queryOnlineAll();
-        assertNotEquals("Empty database", 0, db.size());
+        // Model db = queryOnline.queryOnlineAll();
+        // assertNotEquals("Empty database", 0, db.size());
 //
-//        API4GUI api4GUI = new API4GUI();
+       API4GUI api4GUI = new API4GUI();
 //
 //        JSONObject object = API4GUI.ObjectToJson("Park");
 ////        Test API
@@ -34,7 +36,7 @@ public class Main {
 //        sc.nextLine();
 //
 //        System.out.println("Delete cache file");
-//        api4GUI.destroyCache();
+       api4GUI.destroyCache();
     }
 
     // ----------------------------------

@@ -1,5 +1,5 @@
-/* .root {
-  -fx-background-color: "black";
+.root {
+  /* -fx-background-color: "white"; */
 }
 
 #titleLabel {
@@ -9,13 +9,13 @@
 #content {
 }
 
-.label {
+.label#header {
   -fx-font-size: 20px;
   -fx-font-family: "Lucida console";
-  -fx-text-fill: "white";
+  -fx-text-fill: "black";
   -fx-alignment: "center";
 }
 
 button {
   -fx-cursor: "pointer";
-} */
+}

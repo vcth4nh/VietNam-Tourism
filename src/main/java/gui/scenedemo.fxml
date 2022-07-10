@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -9,26 +9,26 @@
 
 <HBox prefHeight="559.0" prefWidth="894.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Controller">
    <children>
-      <BorderPane prefHeight="559.0" prefWidth="900.0">
+      <BorderPane prefHeight="559.0" prefWidth="900.0" HBox.hgrow="ALWAYS">
          <left>
             <VBox prefHeight="459.0" prefWidth="204.0" BorderPane.alignment="CENTER">
                <children>
-                  <TreeView fx:id="treeView" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="505.0" prefWidth="204.0" />
+                  <TreeView fx:id="treeView" onContextMenuRequested="#selectItem" onMouseClicked="#selectItem" prefHeight="505.0" prefWidth="204.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </left>
          <top>
-            <HBox prefHeight="62.0" prefWidth="880.0" BorderPane.alignment="CENTER" />
+            <HBox prefHeight="62.0" prefWidth="880.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <center>
+                        <Label fx:id="header" text="Vietnam Tourism" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </children></HBox>
          </top>
          <center>
-            <TableView fx:id="table" prefHeight="497.0" prefWidth="554.0" BorderPane.alignment="CENTER">
-               <columns>
-                  <TableColumn fx:id="label" prefWidth="175.0" text="Label" />
-                  <TableColumn fx:id="latitude" prefWidth="88.0" text="Latitude" />
-                  <TableColumn fx:id="longtitude" prefWidth="97.0" text="Longtitude" />
-                  <TableColumn fx:id="type" prefWidth="329.0" text="Abstract" />
-               </columns>
-            </TableView>
+            <TableView fx:id="table" prefHeight="497.0" prefWidth="554.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>
