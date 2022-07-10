@@ -11,7 +11,6 @@ import tourismobject.Queryable;
 import tourismobject.TourismObject;
 import utils.ClassUtils;
 import utils.ModelUtils;
-import utils.Selector;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class ExecQuery {
     }
 
     public Model queryOnlineAll() {
-        Selector selector;
+//        Selector selector;
 //        try {
 //            selector = new Selector();
 //        } catch (IOException | ParseException e) {
