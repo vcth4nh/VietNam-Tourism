@@ -28,6 +28,7 @@ public class ClassUtils {
                 if (Modifier.isStatic(field.getModifiers())) continue;
 
                 String fieldName = field.getName();
+                if (fieldName.equals("selector")) continue;
 
                 if (fieldName.charAt(fieldName.length() - 1) == '_')
                     fieldName = rmLastChar(fieldName);

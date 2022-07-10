@@ -1,4 +1,5 @@
 package utils;
+
 import org.json.simple.JSONObject;
 import org.apache.jena.rdf.model.Model;
 import org.json.simple.parser.ParseException;
@@ -41,15 +42,13 @@ public class API4GUI {
             }
         else System.err.println(cacheFileName + " already exist, reading from file.");
 
-        JSONObject json;
         try {
-            json = JsonUtils.read(cacheFilePath);
+            return JsonUtils.read(cacheFilePath);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
             return null;
         }
 
-        return json;
     }
 
     /**
@@ -102,10 +101,12 @@ public class API4GUI {
                 try {
                     Files.deleteIfExists(p);
                 } catch (Exception e) {
+                    System.err.println("Cannot delete");
                     e.printStackTrace();
                 }
             });
         } catch (IOException e) {
+            System.err.println("Cannot access");
             e.printStackTrace();
         }
     }
