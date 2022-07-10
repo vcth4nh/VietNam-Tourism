@@ -1,8 +1,9 @@
 package tourismobject;
 
 import org.apache.jena.rdf.model.Model;
-import sparql.Construct;
+import sparql.ExecQuery;
 
 public interface Queryable {
-    public Model queryModel(Construct construct);
+    String object = "?o";
+    Model queryModel(ExecQuery execQuery);
 }
