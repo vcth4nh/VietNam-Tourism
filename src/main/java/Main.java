@@ -1,5 +1,5 @@
 import org.apache.jena.rdf.model.Model;
-import sparql.Construct;
+import sparql.ExecQuery;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class Main {
     public static void main(String[] args) {
-        Construct queryOnline = new Construct();
+        ExecQuery queryOnline = new ExecQuery();
         Model db = queryOnline.queryOnlineAll();
         assertNotEquals("Empty database", 0, db.size());
 
