@@ -8,17 +8,16 @@ import sparql.ExecQuery;
 import java.util.ArrayList;
 
 
-public class NationalPark extends Park {
+public class NationalPark extends Park implements Queryable {
     private String nearestCity;
     private String areaTotal;
     private String area;
 
-    public class NationalPark extends Park implements Queryable {
-        @Override
-        public Model queryModel(ExecQuery execQuery) {
-            ArrayList<Triple<String, String, String>> selector = new ArrayList<>();
-            selector.add(SetTriple(Queryable.object, "rdf:type", "yago:WikicatNationalParksOfVietnam"));
+    @Override
+    public Model queryModel(ExecQuery execQuery) {
+        ArrayList<Triple<String, String, String>> selector = new ArrayList<>();
+        selector.add(SetTriple(Queryable.object, "rdf:type", "yago:WikicatNationalParksOfVietnam"));
 
-            return execQuery.execConstruct(this, selector);
-        }
+        return execQuery.execConstruct(this, selector);
     }
+}
