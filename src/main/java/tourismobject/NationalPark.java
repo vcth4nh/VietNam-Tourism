@@ -15,7 +15,6 @@ public class NationalPark extends Park implements Queryable {
 
     @Override
     public Model queryModel(ExecQuery execQuery) {
-        ArrayList<Triple<String, String, String>> selector = new ArrayList<>();
         selector.add(SetTriple(Queryable.object, "rdf:type", "yago:WikicatNationalParksOfVietnam"));
 
         return execQuery.execConstruct(this, selector);

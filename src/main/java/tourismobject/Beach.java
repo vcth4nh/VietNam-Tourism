@@ -1,5 +1,17 @@
 package tourismobject;
 
-public class Beach extends Natural{
+import org.apache.commons.lang3.tuple.Triple;
+import org.apache.jena.rdf.model.Model;
+import sparql.ExecQuery;
 
+import java.util.ArrayList;
+
+public class Beach extends Natural implements Queryable {
+
+    @Override
+    public Model queryModel(ExecQuery execQuery) {
+        selector.add(SetTriple(Queryable.object, "dbo:wikiPageWikiLink", "dbc:Beaches_of_Vietnam"));
+
+        return execQuery.execConstruct(this, selector);
+    }
 }
