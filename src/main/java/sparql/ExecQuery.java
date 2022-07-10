@@ -26,7 +26,7 @@ public class ExecQuery {
     }
 
     public ExecQuery() {
-        endpoint = "http://dbpedia.org/sparql";
+        this("https://live.dbpedia.org/sparql/");
     }
 
     public Model queryOnlineAll() {
@@ -41,19 +41,21 @@ public class ExecQuery {
         for (String className : Objects.requireNonNull(ClassUtils.getSubclassesName("Queryable", false))) {
             Queryable object = (Queryable) ClassUtils.strToObj(className);
             if (object == null) continue;
+
             Model m = object.queryModel(this);
             if (m == null) continue;
 
-            db.add(m);
-
             String fileName = className + ".ttl";
             String filePath = "src/main/resources/result/" + fileName;
-            try {
-                ModelUtils.writeModel(m, filePath, "TURTLE");
-                System.out.println("Successfully wrote to " + fileName);
-            } catch (IOException e) {
-                System.err.println("Cannot write to " + fileName);
-            }
+            if (m.size() > 0)
+                try {
+                    ModelUtils.writeModel(m, filePath, "TURTLE");
+                    System.out.println("Successfully wrote to " + fileName);
+                } catch (IOException e) {
+                    System.err.println("Cannot write to " + fileName);
+                }
+
+            db.add(m);
         }
         return db;
     }
