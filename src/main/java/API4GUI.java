@@ -5,7 +5,6 @@ import utils.ClassUtils;
 import utils.JsonUtils;
 import utils.ModelUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +19,8 @@ public class API4GUI {
     /**
      * Convert a data object to a JSON object, write to file in cache folder and return a JSON object
      * If file exist then read file to return a JSON object
-     * @param className
+     *
+     * @param className Class's name that need to convert to equivalent object
      * @return JSONObject contain
      */
     public JSONObject ObjectToJson(String className) {
@@ -57,8 +57,8 @@ public class API4GUI {
     /**
      * Get name of direct subclasses
      *
-     * @param superClass
-     * @return ArrayList<String> of direct subclasses
+     * @param superClass Class that need to get subclasses' name
+     * @return ArrayList<String> of direct subclasses name
      */
     public ArrayList<String> getDirectSubclassesName(String superClass) {
         return ClassUtils.getSubclassesName(superClass, true);
@@ -67,11 +67,31 @@ public class API4GUI {
     /**
      * Get name of all subclasses
      *
-     * @param superClass
-     * @return ArrayList<String> of all subclasses
+     * @param superClass Class that need to get subclasses' name
+     * @return ArrayList<String> of all subclasses name
      */
     public ArrayList<String> getAllSubclassesName(String superClass) {
         return ClassUtils.getSubclassesName(superClass, false);
+    }
+
+    /**
+     * Get name of current class and direct subclasses
+     *
+     * @param superClass Class that need to get subclasses' name
+     * @return ArrayList<String> of current class and direct subclasses name
+     */
+    public ArrayList<String> getCurNDirectSubclassesName(String superClass) {
+        return ClassUtils.getCurNSubClassesName(superClass, false);
+    }
+
+    /**
+     * Get name of current class and all subclasses
+     *
+     * @param superClass Class that need to get subclasses' name
+     * @return ArrayList<String> of current class and all subclasses name
+     */
+    public ArrayList<String> getCurNAllSubClassesName(String superClass) {
+        return ClassUtils.getCurNSubClassesName(superClass, true);
     }
 
 
