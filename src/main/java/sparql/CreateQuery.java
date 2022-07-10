@@ -1,25 +1,32 @@
 package sparql;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.arq.querybuilder.ConstructBuilder;
 import org.apache.jena.query.Query;
+import org.apache.jena.sparql.core.TriplePath;
 import org.apache.jena.sparql.lang.sparql_11.ParseException;
+import tourismobject.Queryable;
+import tourismobject.TourismObject;
 import utils.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
-public class ConstructQuery extends QueryModel {
-    public Query create(String className, Map<String, String> classSelector) throws Exception {
-        String object = "?l";
+public class CreateQuery extends QueryModel {
+    public Query create(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
+        return createReal(selector, queryAttr);
+    }
+
+    public Query create(TourismObject tObj, ArrayList<Triple<String, String, String>> selector) throws Exception {
+        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(tObj);
+        return createReal(selector, queryAttr);
+    }
+
+    private Query createReal(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
+        String object = Queryable.object;
 
         ConstructBuilder builder = new ConstructBuilder().addPrefixes(urlPrefix.getPrefixMapping());
-
-        Class<?> c = Class.forName(className);
-        Object obj = c.getDeclaredConstructor().newInstance();
-
-        builder = addSelector(builder, object, classSelector);
-        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(obj);
+        builder = addSelector(builder, selector);
 
         builder = addConstruct(builder, object, queryAttr);
         builder = addOptional(builder, object, queryAttr);
@@ -29,14 +36,9 @@ public class ConstructQuery extends QueryModel {
         return builder.build();
     }
 
-    public ConstructBuilder addSelector(ConstructBuilder builder, String object, Map<String, String> selector) {
-        for (Map.Entry<String, String> entry : selector.entrySet()) {
-            String predicate = getPredicate(entry.getKey());
-            String subject = entry.getValue();
-            if (predicate.charAt(0) == '_')
-                builder.addWhere(subject, predicate, object);
-            else
-                builder.addWhere(object, predicate, subject);
+    public ConstructBuilder addSelector(ConstructBuilder builder, ArrayList<Triple<String, String, String>> selector) {
+        for (Triple<String, String, String> entry : selector) {
+            builder.addWhere(entry.getLeft(), entry.getMiddle(), entry.getRight());
         }
         return builder;
     }

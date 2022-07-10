@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
@@ -50,6 +51,14 @@ public class ClassUtils {
         return queryAttr;
     }
 
+    public static ArrayList<String> getCurNSubClassesName(String className, boolean onlyDirect) {
+        ArrayList<String> classes = getSubclassesName(className, onlyDirect);
+        if (classes == null) return new ArrayList<String>(Collections.singleton(className));
+
+        classes.add(className);
+        return classes;
+    }
+
     public static ArrayList<String> getSubclassesName(String className, boolean onlyDirect) {
         Reflections reflections = new Reflections("tourismobject");
 
@@ -87,6 +96,15 @@ public class ClassUtils {
         return tourismObjectDir + '.' + className;
     }
 
+    public static TourismObject strToObj(String className) {
+        try {
+            Class<?> c = Class.forName(getClassPath(className));
+            return (TourismObject) c.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String rmLastChar(String s) {
         return s.substring(0, s.length() - 1);

@@ -1,3 +1,5 @@
+package old;
+
 import tourismobject.NationalPark;
 
 public class Test {

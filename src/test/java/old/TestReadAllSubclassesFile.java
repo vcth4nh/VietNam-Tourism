@@ -1,3 +1,5 @@
+package old;
+
 import org.apache.jena.rdf.model.Model;
 import org.json.simple.parser.ParseException;
 import utils.ClassUtils;

@@ -1,42 +1,47 @@
 package sparql;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.sparql.core.TriplePath;
 import org.json.simple.parser.ParseException;
+import tourismobject.Queryable;
+import tourismobject.TourismObject;
 import utils.ClassUtils;
 import utils.ModelUtils;
-import utils.Selector;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
-public class Construct {
+public class ExecQuery {
 
     private final String endpoint;
 
-    public Construct(String endpoint) {
+    public ExecQuery(String endpoint) {
         this.endpoint = endpoint;
     }
 
-    public Construct() {
+    public ExecQuery() {
         endpoint = "http://dbpedia.org/sparql";
     }
 
     public Model queryOnlineAll() {
-        Selector selector;
-        try {
-            selector = new Selector();
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+//        Selector selector;
+//        try {
+//            selector = new Selector();
+//        } catch (IOException | ParseException e) {
+//            throw new RuntimeException(e);
+//        }
 
         Model db = ModelFactory.createDefaultModel();
-        for (String className : selector.getClassName()) {
-            Map<String, String> classSelector = selector.objectSelector(className);
-            System.out.println(className);
-            Model m = execConstruct(ClassUtils.getClassPath(className), classSelector);
+        for (String className : Objects.requireNonNull(ClassUtils.getSubclassesName("Queryable", false))) {
+            Queryable object = (Queryable) ClassUtils.strToObj(className);
+            if (object == null) continue;
+            Model m = object.queryModel(this);
             if (m == null) continue;
 
             db.add(m);
@@ -53,10 +58,19 @@ public class Construct {
         return db;
     }
 
-    public Model execConstruct(String className, Map<String, String> classSelector) {
+    public Model execConstruct(TourismObject tObj, ArrayList<Triple<String, String, String>> selector) {
+        ArrayList<String> queryAttr = ClassUtils.getQueryAttr(tObj);
+        return execConstructReal(selector, queryAttr);
+    }
+
+    public Model execConstruct(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) {
+        return execConstructReal(selector, queryAttr);
+    }
+
+    private Model execConstructReal(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) {
         Query query;
         try {
-            query = (new ConstructQuery()).create(className, classSelector);
+            query = (new CreateQuery()).create(selector, queryAttr);
             System.out.println(query);
         } catch (Exception e) {
             throw new RuntimeException(e);
