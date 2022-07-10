@@ -1,0 +1,186 @@
+<query>
+    <Cave>
+        CONSTRUCT {
+        ?l rdfs:label ?name ;
+        dbp:discovery ?discovery ;
+        dbp:entranceCount ?entrance ;
+        dbp:location ?location ;
+        dbp:depth ?depth ;
+        dbp:length ?length ;
+        dbp:geology ?geology .
+        }
+        WHERE{
+        ?l dct:subject dbc:Caves_of_Vietnam .
+        ?l rdfs:label ?name .
+        FILTER ( lang(?name) = "en" || lang(?name) = "vi" )
+        OPTIONAL{ ?l dbp:discovery ?discovery }
+        OPTIONAL{?l dbp:entranceCount ?entrance }
+        OPTIONAL{?l dbp:location ?location }
+        OPTIONAL{?l dbp:depth ?depth }
+        OPTIONAL{?l dbp:length ?length }
+        OPTIONAL {?l dbp:geology ?geology }
+        }
+    </Cave>
+    <Beach>
+        CONSTRUCT {
+        ?l rdfs:label ?name ;
+        dbo:abstract ?abs .
+        }
+        WHERE{
+        ?l dbo:wikiPageWikiLink dbc:Beaches_of_Vietnam .
+        ?l rdfs:label ?name .
+        OPTIONAL{?l dbo:abstract ?abs}
+        FILTER ( lang(?name) = "en" || lang(?name) = "vi" )
+        }
+    </Beach>
+    <NationalPark>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:nearestCity ?nearest ;
+        dbo:areaTotal ?areaTotal ;
+        dbp:area ?area .
+
+        }
+        WHERE{
+        ?l dct:subject dbc:National_parks_of_Vietnam .
+        ?l rdfs:label ?label .
+        OPTIONAL{?l dbo:abstract ?abs}
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        ?l dbp:nearestCity ?nearest .
+        OPTIONAL {?l dbo:areaTotal ?areaTotal}
+        OPTIONAL {?l dbp:area ?area} .
+        }
+    </NationalPark>
+    <Museum>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:location ?location .
+        }
+        WHERE{
+        ?l dct:subject dbc:Museums_in_Vietnam|dbc:Museums_in_Hanoi .
+        ?l rdfs:label ?label .
+
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        OPTIONAL{?l dbo:abstract ?abs}
+        OPTIONAL{?l dbp:location ?location}
+        }
+    </Museum>
+    <BuddhistTemple>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:location ?location .
+        }
+        WHERE{
+        ?l dct:subject dbc:Buddhist_temples_in_Vietnam .
+
+        ?l rdfs:label ?label .
+
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        OPTIONAL{?l dbo:abstract ?abs}
+        OPTIONAL{?l dbp:location ?location}
+        }
+    </BuddhistTemple>
+    <Cathedrals>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:location ?location .
+        }
+        WHERE{
+        ?l dct:subject ?subject .
+        VALUES ?subject {dbc:Catholic_Church_in_Vietnam dbc:Roman_Catholic_cathedrals_in_Vietnam }
+        ?l rdfs:label ?label .
+
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        OPTIONAL{?l dbo:abstract ?abs}
+        OPTIONAL{?l dbp:location ?location}
+        }
+    </Cathedrals>
+    <Mosques>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:location ?location .
+        }
+        WHERE{
+        ?l dct:subject dbc:Mosques_in_Vietnam .
+        ?l rdfs:label ?label .
+
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        OPTIONAL{?l dbo:abstract ?abs}
+        OPTIONAL{?l dbp:location ?location}
+        }
+    </Mosques>
+    <SkyCraper>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:location ?location ;
+        dbp:buildingType ?type ;
+        dbp:floorCount ?count .
+        }
+        WHERE{
+        ?l dct:subject ?subject .
+        VALUES ?subject {
+        dbc:Skyscraper_office_buildings_in_Vietnam
+        dbc:Skyscrapers_in_Ho_Chi_Minh_City
+
+        }
+        ?l rdfs:label ?label .
+
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        OPTIONAL{?l dbo:abstract ?abs}
+        OPTIONAL{?l dbp:location ?location}
+        OPTIONAL{?l dbp:floorCount ?count}
+        OPTIONAL{?l dbp:buildingType ?type}
+        }
+    </SkyCraper>
+    <HistoricBuilding>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:location ?location .
+        }
+        WHERE{
+        {
+        ?l dct:subject ?subject .
+        VALUES ?subject {
+        dbc:Forts_in_Vietnam
+        dbc:Tombs_in_Vietnam
+        dbc:Historical_sites_in_Hanoi
+        dbc:World_Heritage_Sites_in_Vietnam
+        dbc:Archaeological_sites_in_Vietnam
+        }
+        ?l rdfs:label ?label .
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        }
+        UNION {
+        ?l rdf:type dbo:HistoricBuilding ;
+        dbp:country dbr:Vietnam .
+        ?l rdfs:label ?label .
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        }
+        OPTIONAL{?l dbo:abstract ?abs}
+        OPTIONAL{?l dbp:location ?location}
+        }
+    </HistoricBuilding>
+    <Lake>
+        CONSTRUCT {
+        ?l rdfs:label ?label ;
+        dbo:abstract ?abs ;
+        dbp:location ?location ;
+        dbo:type ?type
+        }
+        WHERE{
+        ?l dct:subject dbc:Lakes_of_Vietnam .
+        ?l rdfs:label ?label .
+        FILTER ( lang(?label) = "en" || lang(?label) = "vi" )
+        OPTIONAL{?l dbo:abstract ?abs}
+        OPTIONAL{?l dbp:location ?location}
+        OPTIONAL{?l dbo:type ?type}
+        }
+    </Lake>
+</query>
