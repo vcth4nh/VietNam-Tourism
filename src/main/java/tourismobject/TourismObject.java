@@ -1,40 +1,27 @@
 package tourismobject;
 
-public abstract class TourismObject {
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
+
+import org.apache.jena.rdf.model.Model;
+import sparql.ExecQuery;
+
+public abstract class TourismObject  {
     protected String label;
     protected String lat;
     protected String long_;
     protected String abstract_;
 
-    public String getLabel() {
-        return label;
+    protected Triple<String, String, String> SetTriple(String l, String m, String r) {
+        MutableTriple<String, String, String> t = new MutableTriple<>();
+        t.setLeft(l);
+        t.setMiddle(m);
+        t.setRight(r);
+        return t;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLong_() {
-        return long_;
-    }
-
-    public void setLong_(String long_) {
-        this.long_ = long_;
-    }
-
-    public String getAbstract_() {
-        return abstract_;
-    }
-
-    public void setAbstract_(String abstract_) {
-        this.abstract_ = abstract_;
-    }
+//    @Override
+//    public Model queryModel(ExecQuery execQuery) {
+//        return null;
+//    }
 }
