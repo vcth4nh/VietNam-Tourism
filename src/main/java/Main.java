@@ -1,46 +1,48 @@
-import static org.junit.Assert.assertNotEquals;
+import java.io.File;
+import java.util.Objects;
 
-import org.apache.jena.rdf.model.Model;
-import org.json.simple.JSONObject;
-
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import sparql.ExecQuery;
 import utils.API4GUI;
 
-import java.io.IOException;
-import java.util.Scanner;
+import static org.junit.Assert.assertNotEquals;
 
-import static org.junit.Assert.*;
 
-public class Main {
-    public static void main(String[] args) {
-        ExecQuery queryOnline = new ExecQuery();
-        // Model db = queryOnline.queryOnlineAll();
-        // assertNotEquals("Empty database", 0, db.size());
-//
-       API4GUI api4GUI = new API4GUI();
-//
-//        JSONObject object = API4GUI.ObjectToJson("Park");
-////        Test API
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("TourismObject: ");
-//        System.out.println(api4GUI.getDirectSubclassesName("TourismObject"));
-//        System.out.println(API4GUI.ObjectToJson("TourismObject"));
-//        System.out.println("Press enter");
-//        sc.nextLine();
-//
-//
-//        System.out.println("Beach: ");
-//        System.out.println(api4GUI.getDirectSubclassesName("Beach"));
-//        System.out.println(API4GUI.ObjectToJson("Beach"));
-//        System.out.println("Press enter");
-//        sc.nextLine();
-//
-//        System.out.println("Delete cache file");
-       api4GUI.destroyCache();
+public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainScene.fxml")));
+            Scene scene = new Scene(root, Color.LIGHTSKYBLUE);
+            String css = Objects.requireNonNull(this.getClass().getResource("application.css")).toExternalForm();
+
+            scene.getStylesheets().add(css);
+            stage.setScene(scene);
+            Image icon = new Image("file:logo.jpg");
+            File file = new File("");
+            System.out.println(file.getAbsolutePath());
+
+            stage.setTitle("Stage demo program");
+            stage.getIcons().add(icon);
+            stage.show();
+            stage.setResizable(true);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    // ----------------------------------
-    // GUI code goes here
-    // ----------------------------------
+    public static void main(String[] args) {
+        API4GUI.destroyCache();
+        assertNotEquals("Empty database", 0, (ExecQuery.queryOnlineAll().size()));
+
+        launch();
+    }
 
 }
