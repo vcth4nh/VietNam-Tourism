@@ -1,11 +1,13 @@
 package old;
 
-import org.apache.jena.rdf.model.Model;
-import sparql.Construct;
+import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+
 
 public class QueryAllTest {
+    @Test
+    @Disabled("Test")
     public static void main(String[] args) {
-        Construct construct = new Construct();
-        construct.queryOnlineAll();
+
     }
 }

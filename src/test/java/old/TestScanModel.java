@@ -1,18 +1,15 @@
 package old;
 
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.Disabled;
 import tourismobject.Building;
 import utils.ModelUtils;
-import utils.Selector;
 
 import java.io.IOException;
 
 public class TestScanModel {
+    @Disabled("test")
     public static void main(String[] args) {
-        try {
-            ModelUtils.scanModel((new Selector()).getClassPath("Building"));
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 }

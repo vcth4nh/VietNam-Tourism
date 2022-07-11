@@ -4,7 +4,6 @@ import org.apache.jena.rdf.model.Model;
 import org.json.simple.parser.ParseException;
 import utils.ClassUtils;
 import utils.ModelUtils;
-import utils.Selector;
 
 import java.io.IOException;
 import java.util.ArrayList;

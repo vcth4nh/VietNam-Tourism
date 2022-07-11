@@ -17,11 +17,14 @@ import java.util.Set;
 import static org.junit.Assert.assertTrue;
 
 public class ClassUtils {
-    /**
-     * Return an ArrayList of fields' name
-     */
-    public static final String[] omittedFields = { "selector", "" };
+    public static final String[] omittedFields = {"selector", ""};
 
+    /**
+     * Get field's names of all own and inherited fields.
+     *
+     * @param obj Object to get all avaiable non-static fields
+     * @return ArrayList of name of fields
+     */
     public static ArrayList<String> getQueryAttr(Object obj) {
         ArrayList<String> queryAttr = new ArrayList<>();
         Class<?> class_ = obj.getClass();
@@ -30,7 +33,8 @@ public class ClassUtils {
         while (class_ != TourismObject.class.getSuperclass()) {
             Field[] allFields = class_.getDeclaredFields();
             for (Field field : allFields) {
-                if (Modifier.isStatic(field.getModifiers()))
+                if (Modifier.isStatic(field.getModifiers()) ||
+                        (Modifier.isPrivate(field.getModifiers()) && !class_.equals(obj.getClass())))
                     continue;
 
                 String fieldName = field.getName();
@@ -61,15 +65,29 @@ public class ClassUtils {
         return queryAttr;
     }
 
+    /**
+     * Get current class and subclasses' names
+     *
+     * @param className  Class's name to get current and subclasses name
+     * @param onlyDirect option to get direct or all subclasses name
+     * @return ArrayList of name of current and subclasses name
+     */
     public static ArrayList<String> getCurNSubClassesName(String className, boolean onlyDirect) {
         ArrayList<String> classes = getSubclassesName(className, onlyDirect);
         if (classes == null)
-            return new ArrayList<String>(Collections.singleton(className));
+            return new ArrayList<>(Collections.singleton(className));
 
         classes.add(className);
         return classes;
     }
 
+    /**
+     * Get subclasses' names
+     *
+     * @param className  Class's name to get subclasses name
+     * @param onlyDirect option to get direct or all subclasses name
+     * @return ArrayList of name of subclasses name
+     */
     public static ArrayList<String> getSubclassesName(String className, boolean onlyDirect) {
         Reflections reflections = new Reflections("tourismobject");
 
@@ -95,18 +113,36 @@ public class ClassUtils {
         return subclasses_;
     }
 
-    public static void checkExistClassPath(String dir) {
-        assertTrue("File " + dir + " does not exist", Files.exists(Path.of(dir)));
+    /**
+     * Check existence of a Class path, exit program if not
+     *
+     * @param className Class's name to check existence
+     */
+    public static void checkExistClassPath(String className) {
+        String classPath = "src/main/java/tourismobject/" + className + ".java";
+        assertTrue("File " + classPath + " does not exist",
+                Files.exists(Path.of(classPath)));
     }
 
+    /**
+     * Get path to a class
+     *
+     * @param className Class's name to get path to class
+     * @return String Path to class
+     */
     public static String getClassPath(String className) {
         final String tourismObjectDir = "tourismobject";
-        final String tourismObjectDirPath = "src/main/java/" + tourismObjectDir + "/";
-        checkExistClassPath(tourismObjectDirPath + className + ".java");
+        checkExistClassPath(className);
 
         return tourismObjectDir + '.' + className;
     }
 
+    /**
+     * Create an object from a string
+     *
+     * @param className Class's name to create object
+     * @return TourismObject
+     */
     public static TourismObject strToObj(String className) {
         try {
             Class<?> c = Class.forName(getClassPath(className));
@@ -117,6 +153,12 @@ public class ClassUtils {
         }
     }
 
+    /**
+     * Remove the final character in a String
+     *
+     * @param s String to be processed
+     * @return String
+     */
     public static String rmLastChar(String s) {
         return s.substring(0, s.length() - 1);
     }
@@ -127,12 +169,11 @@ public class ClassUtils {
         try {
             Class<?> c = Class.forName(getClassPath(className));
             Field[] fields = c.getDeclaredFields();
-            for (int i = 0; i < fields.length; i++) {
-                if (!nameList.contains(fields[i].getName()))
-                    nameList.add(fields[i].getName());
+            for (Field field : fields) {
+                if (!nameList.contains(field.getName()))
+                    nameList.add(field.getName());
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return nameList;
@@ -162,13 +203,7 @@ public class ClassUtils {
             List<String> subClasses = getSubclassesName(className, false);
             if (subClasses != null && !subClasses.isEmpty()) {
                 for (String subClass : subClasses) {
-                    Class<?> sc = Class.forName(getClassPath(subClass));
-
-                    Field[] sFields = sc.getDeclaredFields();
-                    for (int i = 0; i < sFields.length; i++) {
-                        if (!nameList.contains(sFields[i].getName()))
-                            nameList.add(sFields[i].getName());
-                    }
+                    getCurFieldNames(subClass);
                 }
             }
         } catch (Exception e) {

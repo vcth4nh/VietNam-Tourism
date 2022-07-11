@@ -16,11 +16,13 @@ public class ModelUtils {
             System.err.println(e.getMessage());
             return null;
         }
+
         return model;
     }
 
     public static Model createModel(ArrayList<String> fileList) {
         Model db = ModelFactory.createDefaultModel();
+
         for (String file : fileList) {
             Model m = ModelUtils.createModel(file);
             if (m == null)
@@ -28,6 +30,7 @@ public class ModelUtils {
 
             db.add(m);
         }
+
         return db;
     }
 
@@ -35,6 +38,7 @@ public class ModelUtils {
         ArrayList<String> subclasses_ = ClassUtils.getSubclassesName(className, false);
         if (subclasses_ == null)
             return null;
+
         if (subclasses_.size() < 1) {
             subclasses_.add("src/main/resources/result/" + className + ".ttl");
             return subclasses_;
@@ -42,10 +46,6 @@ public class ModelUtils {
 
         subclasses_.replaceAll(s -> "src/main/resources/result/" + s + ".ttl");
         return subclasses_;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(scanModel("NationalPark"));
     }
 
     public static void writeModel(Model model, String filePath, String type) throws IOException {

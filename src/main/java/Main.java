@@ -18,9 +18,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("gui/scenedemo.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainScene.fxml")));
             Scene scene = new Scene(root, Color.LIGHTSKYBLUE);
-            String css = Objects.requireNonNull(this.getClass().getResource("gui/application.css")).toExternalForm();
+            String css = Objects.requireNonNull(this.getClass().getResource("application.css")).toExternalForm();
 
             scene.getStylesheets().add(css);
             stage.setScene(scene);
@@ -38,11 +38,16 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        // API4GUI.destroyCache();
-        // assertNotEquals("Empty database", 0, (((new
-        // ExecQuery()).queryOnlineAll()).size()));
+        API4GUI.destroyCache();
+        ExecQuery execQuery = new ExecQuery();
+        /*
+        String endpoint;
+        ExecQuery execQuery = new ExecQuery(endpoint);
+        */
+        assertNotEquals("Empty database", 0, (execQuery.queryOnlineAll().size()));
 
         launch();
+        API4GUI.destroyCache();
     }
 
 }
