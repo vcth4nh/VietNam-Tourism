@@ -2,7 +2,6 @@ package sparql;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.arq.querybuilder.ConstructBuilder;
-import org.apache.jena.query.Query;
 import org.apache.jena.sparql.lang.sparql_11.ParseException;
 import tourismobject.Queryable;
 import tourismobject.TourismObject;
@@ -14,7 +13,7 @@ import java.util.Arrays;
 /**
  * Create query to gather data
  */
-public class CreateQuery extends QueryModel {
+public class CreateQuery extends Query {
     /**
      * Create query
      *
@@ -22,7 +21,7 @@ public class CreateQuery extends QueryModel {
      * @param queryAttr ArrayList of Attributes to query
      * @return Query object to start query for triples
      */
-    public Query create(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
+    public org.apache.jena.query.Query create(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
         return createReal(selector, queryAttr);
     }
 
@@ -33,7 +32,7 @@ public class CreateQuery extends QueryModel {
      * @param selector ArrayList of Triple to filter result
      * @return Query object to start query for triples
      */
-    public Query create(TourismObject tObj, ArrayList<Triple<String, String, String>> selector) throws Exception {
+    public org.apache.jena.query.Query create(TourismObject tObj, ArrayList<Triple<String, String, String>> selector) throws Exception {
         ArrayList<String> queryAttr = ClassUtils.getQueryAttr(tObj);
         return createReal(selector, queryAttr);
     }
@@ -110,7 +109,7 @@ public class CreateQuery extends QueryModel {
         return builder;
     }
 
-    private Query createReal(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
+    private org.apache.jena.query.Query createReal(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
         String object = Queryable.object;
 
         ConstructBuilder builder = new ConstructBuilder().addPrefixes(urlPrefix.getPrefixMapping());

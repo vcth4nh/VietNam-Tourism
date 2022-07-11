@@ -5,14 +5,14 @@ import utils.JsonUtils;
 
 import java.util.Map;
 
-public class QueryModel {
+public class Query {
     protected final Prologue urlPrefix;
     protected final Map<String, String> abbrPrefix;
 
     /**
      * Initialize prefixes for sparql queries
      */
-    public QueryModel() {
+    public Query() {
         try {
             urlPrefix = JsonUtils.JsonToPrologue("url-prefix.json");
             abbrPrefix = JsonUtils.JsonToMapStrStr("abbr-prefix.json");
