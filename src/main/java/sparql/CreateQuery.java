@@ -11,6 +11,9 @@ import utils.ClassUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/*
+    Create query to gather data
+ */
 public class CreateQuery extends QueryModel {
     public Query create(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
         return createReal(selector, queryAttr);
@@ -21,6 +24,7 @@ public class CreateQuery extends QueryModel {
         return createReal(selector, queryAttr);
     }
 
+    // create construct builder
     private Query createReal(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) throws Exception {
         String object = Queryable.object;
 
@@ -35,6 +39,7 @@ public class CreateQuery extends QueryModel {
         return builder.build();
     }
 
+    // add selector for query
     public ConstructBuilder addSelector(ConstructBuilder builder, ArrayList<Triple<String, String, String>> selector) {
         for (Triple<String, String, String> entry : selector) {
             builder.addWhere(entry.getLeft(), entry.getMiddle(), entry.getRight());
@@ -42,7 +47,7 @@ public class CreateQuery extends QueryModel {
         return builder;
     }
 
-
+    // create construct for query's result
     public ConstructBuilder addConstruct(ConstructBuilder builder, String object, ArrayList<String> subjects) {
         return addOptCon(builder, object, subjects, false);
     }
@@ -51,6 +56,7 @@ public class CreateQuery extends QueryModel {
         return addOptCon(builder, object, wheres, true);
     }
 
+    // optional condition
     private ConstructBuilder addOptCon(ConstructBuilder builder, String object, ArrayList<String> list, boolean isOptional) {
         for (String item : list) {
             String predicate = getPredicate(item);
@@ -63,6 +69,7 @@ public class CreateQuery extends QueryModel {
         return builder;
     }
 
+    // language filter
     public ConstructBuilder addLangFilter(ConstructBuilder builder, String var, ArrayList<String> langs) throws ParseException {
         ArrayList<String> langFilterList = new ArrayList<>();
         for (String lang : langs) {

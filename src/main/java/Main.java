@@ -40,7 +40,14 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         API4GUI.destroyCache();
-        assertNotEquals("Empty database", 0, (ExecQuery.queryOnlineAll().size()));
+        ExecQuery execQuery = new ExecQuery();
+        /*
+        String endpoint;
+        ExecQuery execQuery = new ExecQuery(endpoint);
+        */
+        assertNotEquals("Empty database", 0, (execQuery.queryOnlineAll().size()));
+
+
 
         launch();
     }
