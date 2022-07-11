@@ -124,16 +124,21 @@ public class Controller implements Initializable {
                 Set<String> keys = element.keySet();
                 HashMap<String, String> itemMap = new HashMap<String, String>();
                 for (String key : keys) {
+                    
                     if (key.equals("abstract_"))
                         key = "abstract";
                     if (key.equals("@id"))
                         continue;
-
+                    String[] keyPref = key.split(":");
+                    String keyLabel = key;
+                    if(keyPref.length > 1) {
+                        keyLabel = keyPref[1];
+                    }
                     Object keyObject = element.get(key);
                     if (keyObject == null) {
-                        itemMap.put(key, "");
+                        itemMap.put(keyLabel, "");
                     } else if (keyObject instanceof Long || keyObject instanceof String) {
-                        itemMap.put(key, keyObject.toString());
+                        itemMap.put(keyLabel, keyObject.toString());
                     } else if (keyObject instanceof JSONArray) {
                         JSONArray keyArray = (JSONArray) keyObject;
                         StringBuilder arrayString = new StringBuilder();
@@ -149,10 +154,10 @@ public class Controller implements Initializable {
                             } else
                                 arrayString.append(val + ", ");
                         }
-                        itemMap.put(key, arrayString.toString());
+                        itemMap.put(keyLabel, arrayString.toString());
                     } else {
                         String keyValue = (String) ((JSONObject) keyObject).get("@value");
-                        itemMap.put(key, keyValue);
+                        itemMap.put(keyLabel, keyValue);
                     }
                 }
                 TourismObjectData newItem = new TourismObjectData(itemMap);
