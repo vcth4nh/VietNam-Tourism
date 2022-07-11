@@ -14,29 +14,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/*
-* Execute sparql query
+/**
+ * Execute sparql query
  */
 
 public class ExecQuery {
 
     private final String endpoint;
 
-    // initialize database source
+    /**
+     * Initialize database source with given endpoint
+     */
     public ExecQuery(String endpoint) {
         this.endpoint = endpoint;
     }
 
-    // initialize default database source
+    /**
+     * Initialize database source default endpoint
+     */
     public ExecQuery() {
         this("https://live.dbpedia.org/sparql/");
     }
 
-    /*
-    Query all  tourism object
+    /**
+     * Query all tourism object that implement Queryable interface and write to .ttl files
      */
     public Model queryOnlineAll() {
-        // initialize Jena Model for queries
         Model db = ModelFactory.createDefaultModel();
         for (String className : Objects.requireNonNull(ClassUtils.getSubclassesName("Queryable", false))) {
             Queryable object = (Queryable) ClassUtils.strToObj(className);
@@ -60,17 +63,25 @@ public class ExecQuery {
         return db;
     }
 
-    // Execute query with tourism object and selector as parameters
-    // @param tourismObject, selector
-    // @return query's result
+    /**
+     * Execute query with tourism object and ArrayList of selector as parameters
+     *
+     * @param tObj     a TourismObject object that needed to be queried
+     * @param selector ArrayList of selector
+     * @return a Model object which was queried
+     */
     public Model execConstruct(TourismObject tObj, ArrayList<Triple<String, String, String>> selector) {
         ArrayList<String> queryAttr = ClassUtils.getQueryAttr(tObj);
         return execConstructReal(selector, queryAttr);
     }
 
-    // Execute query with selector and query's attributes as parameters
-    // @param selector, queryAttributes
-    // @return query's result
+    /**
+     * Execute query with selector and query's attributes as parameters
+     *
+     * @param selector  ArrayList of selector
+     * @param queryAttr ArrayList of attributes
+     * @return a Model object which was queried
+     */
     public Model execConstruct(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) {
         return execConstructReal(selector, queryAttr);
     }
@@ -93,6 +104,11 @@ public class ExecQuery {
             return execConstructFile(query, endpoint);
     }
 
+    /**
+     * Execute query with an URL
+     *
+     * @return a Model object which was queried
+     */
     /* Execute query with url
     @param query, url
     @return
@@ -105,8 +121,10 @@ public class ExecQuery {
         return m;
     }
 
-    /*
-    Execute query with file
+    /**
+     * Execute query with a data file
+     *
+     * @return a Model object which was queried
      */
     private Model execConstructFile(Query query, String file) {
         Model db = ModelUtils.createModel(file);
