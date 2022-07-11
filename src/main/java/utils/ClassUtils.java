@@ -121,6 +121,7 @@ public class ClassUtils {
         return s.substring(0, s.length() - 1);
     }
 
+    // Get field names of Current class
     public static List<String> getCurFieldNames(String className) {
         List<String> nameList = new ArrayList<>();
         try {
@@ -137,10 +138,13 @@ public class ClassUtils {
         return nameList;
     }
 
+    // Get field names of parents and all ancestor of the current class
+
     public static List<String> getUpperFieldNames(String className) {
         List<String> nameList = new ArrayList<>();
         try {
             Class<?> c = Class.forName(getClassPath(className));
+            // Loop through to the very top ancestor
             while (c.getSuperclass() != Object.class) {
                 c = c.getSuperclass();
                 nameList.addAll(getCurFieldNames(c.getSimpleName()));
@@ -151,6 +155,7 @@ public class ClassUtils {
         return nameList;
     }
 
+    // Get field names of child and all descendent of the current class
     public static List<String> getLowerFieldNames(String className) {
         List<String> nameList = new ArrayList<>();
         try {
@@ -172,12 +177,14 @@ public class ClassUtils {
         return nameList;
     }
 
+    // Get All field names related to the current class
     public static List<String> getFieldNames(String className) {
         List<String> nameList = new ArrayList<>();
         nameList.addAll(getUpperFieldNames(className));
         nameList.addAll(getCurFieldNames(className));
         nameList.addAll(getLowerFieldNames(className));
         nameList.remove("selector");
+        // Sort to make label first in the field list
         nameList.sort((o1, o2) -> {
             if (o1.equals("label"))
                 return -1;

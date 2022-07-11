@@ -57,7 +57,7 @@ public class Controller implements Initializable {
         setItem(listItem, item.getValue());
 
     }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
     private void setItem(ObservableList<TourismObjectData> listItem, String className) {
         List<String> fieldNames = ClassUtils.getFieldNames(className);
         List<TableColumn<TourismObjectData, ?>> columns = new ArrayList<>();
