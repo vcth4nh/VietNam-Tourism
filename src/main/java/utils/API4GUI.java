@@ -8,12 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertNotNull;
+import java.util.stream.Stream;
 
 public class API4GUI {
     private static final String cacheDirPath = "src/main/resources/cache/";
-    private final String resultDirPath = "src/main/resources/result/";
 
     /**
      * Convert a data object to a JSON object, write to file in cache folder and return a JSON object
@@ -48,7 +46,6 @@ public class API4GUI {
             e.printStackTrace();
             return null;
         }
-
     }
 
     /**
@@ -95,9 +92,9 @@ public class API4GUI {
     /**
      * Clear cache folder after exit the program
      */
-    public void destroyCache() {
-        try {
-            Files.list(Path.of(cacheDirPath)).filter(p -> p.toString().endsWith(".json")).forEach((p) -> {
+    public static void destroyCache() {
+        try (Stream<Path> f = Files.list(Path.of(cacheDirPath))) {
+            f.filter(p -> p.toString().endsWith(".json")).forEach((p) -> {
                 try {
                     Files.deleteIfExists(p);
                 } catch (Exception e) {

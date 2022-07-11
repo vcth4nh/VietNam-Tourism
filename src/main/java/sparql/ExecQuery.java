@@ -5,8 +5,6 @@ import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.sparql.core.TriplePath;
-import org.json.simple.parser.ParseException;
 import tourismobject.Queryable;
 import tourismobject.TourismObject;
 import utils.ClassUtils;
@@ -14,7 +12,6 @@ import utils.ModelUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Objects;
 
 public class ExecQuery {
@@ -29,20 +26,14 @@ public class ExecQuery {
         this("https://live.dbpedia.org/sparql/");
     }
 
-    public Model queryOnlineAll() {
-//        Selector selector;
-//        try {
-//            selector = new Selector();
-//        } catch (IOException | ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-
+    public static Model queryOnlineAll() {
         Model db = ModelFactory.createDefaultModel();
+
         for (String className : Objects.requireNonNull(ClassUtils.getSubclassesName("Queryable", false))) {
             Queryable object = (Queryable) ClassUtils.strToObj(className);
             if (object == null) continue;
 
-            Model m = object.queryModel(this);
+            Model m = object.queryModel(new ExecQuery());
             if (m == null) continue;
 
             String fileName = className + ".ttl";
@@ -57,6 +48,7 @@ public class ExecQuery {
 
             db.add(m);
         }
+
         return db;
     }
 
@@ -90,6 +82,7 @@ public class ExecQuery {
         try (QueryExecution qef = QueryExecution.service(URL, query)) {
             m = qef.execConstruct();
         }
+
         return m;
     }
 

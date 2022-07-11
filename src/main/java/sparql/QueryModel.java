@@ -17,7 +17,6 @@ public class QueryModel {
     public QueryModel() {
         try {
             urlPrefix = JsonUtils.JsonToPrologue("url-prefix.json");
-            // TODO: 7/7/2022 Lặp key?
             abbrPrefix = JsonUtils.JSONToMapStrStr("abbr-prefix.json");
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -26,7 +25,8 @@ public class QueryModel {
 
     protected String getPredicate(String s) {
         for (Map.Entry<String, String> entry : abbrPrefix.entrySet()) {
-            if (entry.getValue().contains('|' + s + '|')) return entry.getKey() + ':' + s;
+            if (entry.getValue().contains('|' + s + '|'))
+                return entry.getKey() + ':' + s;
         }
         throw new RuntimeException(s + " is not found in abbr-prefix.json");
     }

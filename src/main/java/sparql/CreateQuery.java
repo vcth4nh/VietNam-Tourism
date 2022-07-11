@@ -3,7 +3,6 @@ package sparql;
 import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.arq.querybuilder.ConstructBuilder;
 import org.apache.jena.query.Query;
-import org.apache.jena.sparql.core.TriplePath;
 import org.apache.jena.sparql.lang.sparql_11.ParseException;
 import tourismobject.Queryable;
 import tourismobject.TourismObject;

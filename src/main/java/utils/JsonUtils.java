@@ -17,45 +17,18 @@ import java.util.Map;
 
 // TODO: 7/10/2022 Rename methods
 public class JsonUtils {
-//    private JSONObject json;
-//
-//    public JsonUtils(String fileName) throws IOException, ParseException {
-//        json = read(fileName);
-//    }
-//
-//    public void setJson(String fileName) throws IOException, ParseException {
-//        json = read(fileName);
-//    }
-//
-//    public JSONObject read() {
-//        return json;
-//    }
-
     public static JSONObject read(String fileName) throws IOException, ParseException {
         if (!Files.exists(Path.of(fileName)))
             fileName = "src/main/resources/" + fileName;
+
         try (FileReader fr = new FileReader(fileName)) {
             return (JSONObject) new JSONParser().parse(fr);
         }
     }
 
-//    public ArrayList<String> getJsonKeys() throws ClassCastException {
-//        return new ArrayList<String>(json.keySet());
-//    }
-
     public static ArrayList<String> getJsonKeys(JSONObject json) throws ClassCastException {
         return new ArrayList<String>(json.keySet());
     }
-
-//    public Map<String, String> JSONToMapStrStr() throws ClassCastException {
-//        Map<String, String> m = new HashMap<>();
-//
-//        for (String key : getJsonKeys()) {
-//            m.put(key, (String) json.get(key));
-//        }
-//
-//        return m;
-//    }
 
     public static Map<String, String> JSONToMapStrStr(JSONObject json) throws ClassCastException {
         Map<String, String> m = new HashMap<>();
@@ -74,6 +47,7 @@ public class JsonUtils {
 
     public static Prologue JsonToPrologue(JSONObject json) throws ClassCastException {
         Prologue p = new Prologue();
+
         for (String key : getJsonKeys(json)) {
             p.setPrefix(key, (String) json.get(key));
         }
