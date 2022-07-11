@@ -3,6 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 javafx-sdk-18.0.1
+
 ### IntelliJ IDEA ###
 .idea
 
