@@ -1,0 +1,21 @@
+.root {
+  /* -fx-background-color: "white"; */
+}
+
+#titleLabel {
+  -fx-font-size: 60px;
+}
+
+#content {
+}
+
+.label#header {
+  -fx-font-size: 20px;
+  -fx-font-family: "Lucida console";
+  -fx-text-fill: "black";
+  -fx-alignment: "center";
+}
+
+button {
+  -fx-cursor: "pointer";
+}
