@@ -75,7 +75,7 @@ public class ClassUtils {
     public static ArrayList<String> getCurNSubClassesName(String className, boolean onlyDirect) {
         ArrayList<String> classes = getSubclassesName(className, onlyDirect);
         if (classes == null)
-            return new ArrayList<String>(Collections.singleton(className));
+            return new ArrayList<>(Collections.singleton(className));
 
         classes.add(className);
         return classes;
@@ -114,7 +114,7 @@ public class ClassUtils {
     }
 
     /**
-     * Check existence of a java file, exit program if not
+     * Check existence of a Class path, exit program if not
      *
      * @param className Class's name to check existence
      */
@@ -168,12 +168,11 @@ public class ClassUtils {
         try {
             Class<?> c = Class.forName(getClassPath(className));
             Field[] fields = c.getDeclaredFields();
-            for (int i = 0; i < fields.length; i++) {
-                if (!nameList.contains(fields[i].getName()))
-                    nameList.add(fields[i].getName());
+            for (Field field : fields) {
+                if (!nameList.contains(field.getName()))
+                    nameList.add(field.getName());
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return nameList;
@@ -200,14 +199,6 @@ public class ClassUtils {
             if (subClasses != null && !subClasses.isEmpty()) {
                 for (String subClass : subClasses) {
                     getCurFieldNames(subClass);
-
-//                    Class<?> sc = Class.forName(getClassPath(subClass));
-//
-//                    Field[] sFields = sc.getDeclaredFields();
-//                    for (int i = 0; i < sFields.length; i++) {
-//                        if (!nameList.contains(sFields[i].getName()))
-//                            nameList.add(sFields[i].getName());
-//                    }
                 }
             }
         } catch (Exception e) {

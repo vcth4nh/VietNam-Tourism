@@ -49,6 +49,25 @@ public class API4GUI {
     }
 
     /**
+     * Clear cache folder after exit the program
+     */
+    public static void destroyCache() {
+        try (Stream<Path> f = Files.list(Path.of(cacheDirPath))) {
+            f.filter(p -> p.toString().endsWith(".json")).forEach((p) -> {
+                try {
+                    Files.deleteIfExists(p);
+                } catch (Exception e) {
+                    System.err.println("Cannot delete");
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            System.err.println("Cannot access");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Get name of direct subclasses
      *
      * @param superClass Class that need to get subclasses' name
@@ -89,22 +108,4 @@ public class API4GUI {
     }
 
 
-    /**
-     * Clear cache folder after exit the program
-     */
-    public static void destroyCache() {
-        try (Stream<Path> f = Files.list(Path.of(cacheDirPath))) {
-            f.filter(p -> p.toString().endsWith(".json")).forEach((p) -> {
-                try {
-                    Files.deleteIfExists(p);
-                } catch (Exception e) {
-                    System.err.println("Cannot delete");
-                    e.printStackTrace();
-                }
-            });
-        } catch (IOException e) {
-            System.err.println("Cannot access");
-            e.printStackTrace();
-        }
-    }
 }

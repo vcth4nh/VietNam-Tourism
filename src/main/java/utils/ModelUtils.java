@@ -48,10 +48,6 @@ public class ModelUtils {
         return subclasses_;
     }
 
-    public static void main(String[] args) {
-        System.out.println(scanModel("NationalPark"));
-    }
-
     public static void writeModel(Model model, String filePath, String type) throws IOException {
         FileWriter myWriter = new FileWriter(filePath);
         model.write(myWriter, type);

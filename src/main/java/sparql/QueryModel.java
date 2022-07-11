@@ -15,7 +15,7 @@ public class QueryModel {
     public QueryModel() {
         try {
             urlPrefix = JsonUtils.JsonToPrologue("url-prefix.json");
-            abbrPrefix = JsonUtils.JSONToMapStrStr("abbr-prefix.json");
+            abbrPrefix = JsonUtils.JsonToMapStrStr("abbr-prefix.json");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
