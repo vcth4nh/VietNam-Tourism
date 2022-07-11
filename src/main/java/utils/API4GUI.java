@@ -95,7 +95,7 @@ public class API4GUI {
     /**
      * Clear cache folder after exit the program
      */
-    public void destroyCache() {
+    public static void destroyCache() {
         try {
             Files.list(Path.of(cacheDirPath)).filter(p -> p.toString().endsWith(".json")).forEach((p) -> {
                 try {
