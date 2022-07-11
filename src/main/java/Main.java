@@ -47,9 +47,8 @@ public class Main extends Application {
         */
         assertNotEquals("Empty database", 0, (execQuery.queryOnlineAll().size()));
 
-
-
         launch();
+        API4GUI.destroyCache();
     }
 
 }
