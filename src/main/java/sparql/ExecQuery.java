@@ -90,7 +90,7 @@ public class ExecQuery {
     private Model execConstructReal(ArrayList<Triple<String, String, String>> selector, ArrayList<String> queryAttr) {
         Query query;
         try {
-            query = (new CreateQuery()).create(selector, queryAttr);
+            query = (new CreateConstructQuery()).create(selector, queryAttr);
             System.out.println(query);
         } catch (Exception e) {
             throw new RuntimeException(e);

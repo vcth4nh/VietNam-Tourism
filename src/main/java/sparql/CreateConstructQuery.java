@@ -13,7 +13,7 @@ import java.util.Arrays;
 /**
  * Create query to gather data
  */
-public class CreateQuery extends Query {
+public class CreateConstructQuery extends Query {
     /**
      * Create query
      *
